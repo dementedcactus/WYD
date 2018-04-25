@@ -7,9 +7,23 @@
 //
 
 import XCTest
+import Foundation
+import Alamofire
 @testable import whosfree
 
 class whosfreeTests: XCTestCase {
+    
+    func testYelpAPIConnection() {
+        let yelpResultsExpectation = XCTestExpectation(description: "yelp results exist")
+        //start network request
+        var places = [Place]()
+        PlaceAPIClient.manager.getPlaces(with: "Sushi", and: "11231", success: { places = $0 ; yelpResultsExpectation.fulfill()}, failure: {print($0)})
+        
+        //wait 10 seconds for results because it's async
+        wait(for: [yelpResultsExpectation], timeout: 10)
+        XCTAssertGreaterThan(places.count, 0, "Places are coming back from Yelp API")
+    
+    }
     
     override func setUp() {
         super.setUp()
