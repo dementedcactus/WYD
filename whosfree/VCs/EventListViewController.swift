@@ -70,20 +70,20 @@ class EventListViewController: UIViewController {
     }
     
     private func loadEvents() {
-        DatabaseService.manager.getAllEvents { (theEvents) in
-            guard let theEvents = theEvents else  {
-                print("could not get events")
-                return
-            }
-            self.events = theEvents.sortedByTimestamp()
-        }
-//        DatabaseService.manager.getMyEvents { (theEvents) in
+//        DatabaseService.manager.getAllEvents { (theEvents) in
 //            guard let theEvents = theEvents else  {
 //                print("could not get events")
 //                return
 //            }
 //            self.events = theEvents.sortedByTimestamp()
 //        }
+        DatabaseService.manager.getMyEvents { (theEvents) in
+            guard let theEvents = theEvents else  {
+                print("could not get events")
+                return
+            }
+            self.events = theEvents.sortedByTimestamp()
+        }
     }
     
     private func emptyStateFunc(){
@@ -173,7 +173,7 @@ extension EventListViewController: UITableViewDataSource {
                 cell.goingNotGoingLabel.text = "\(going!.count)/\(invited!.count)"
             })
         }
-        //cell.goingNotGoingLabel.text = "\(event.friendsGoing?.count.description ?? "1")/\(event.allFriendsInvited.count)"
+        //cell.goingNotGoingLabel.text = "\(event.friendsGoing?.count.description ?? "1")/\(event.invitedFriendsEmails.count)"
         cell.eventBannerPhotoImageView.kf.indicatorType = .activity
         cell.eventBannerPhotoImageView.kf.setImage(with: URL(string: event.eventBannerImgUrl), placeholder: #imageLiteral(resourceName: "placeholder"), options: nil, progressBlock: nil) { (image, error, cache, url) in
             cell.setNeedsLayout()
