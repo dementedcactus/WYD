@@ -42,6 +42,15 @@ pod install
 #### Search for Venue Directions
 <a href="https://imgflip.com/gif/27then"><img src="https://i.imgflip.com/27then.gif" title="made at imgflip.com"/></a>
 
+## Step-By-Step Instructions To Create An Event
+1) When you open the app you'll see the events page. This will have all of the events you've made along with the events you've been invited to.
+2) When you tap the plus button in the upper right corner it will take you to the create event page. 
+3) You can give your event a title (e.g. "Sushi Night") and a description (e.g. "Celebrating our Success!").
+4) When you tap on search for a place, you'll be taken to the place search page. Here you can see what is available around you, or tap the icon next to the Searchbar and choose a different location. When you press enter, the page will refresh and show you options based on your criteria. You can tap on a place for more details, or tap the select place button to choose the place immediately
+5) When you select a place it will take you back to the event you're creating, the banner picture and address will auto-populate.
+6) You can then choose a time, and also tap invite friends to invite people. The invite friends page will show you contacts from your phone. You can tap the SMS icon to send a text invite, or the email icon to send an email invite. You can also tap either icon to unselect, or send via both options. Once you've made your final choices select Done in the upper right.
+7) This will send you back to the create event page, where you can tap CREATE to make the event. WYD will let your selected friends know about the event without you having to send a separate message.
+
 ## Deployment to iOS Device
 It is possible to sideload this project app into your iOS device by following these instructions :
 
