@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import Contacts
 
-class EventDetailViewController: UIViewController {
+class EventDetailViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let eventDetailView = EventDetailView()
     //lazy var editVC = EditEventViewController(event: event, eventImage: eventImage)
@@ -60,12 +60,36 @@ class EventDetailViewController: UIViewController {
         eventDetailView.notGoingButton.addTarget(self, action: #selector(showNotGoing), for: .touchUpInside)
         eventDetailView.allInvitedButton.addTarget(self, action: #selector(showAllInvited), for: .touchUpInside)
         showAllInvited()
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureReconizer:)))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delaysTouchesBegan = true
+        lpgr.delegate = self
+        self.eventDetailView.collectionView.addGestureRecognizer(lpgr)
         //If the currently logged in user is NOT the owner of the event
         if event.ownerUserID != FirebaseAuthService.getCurrentUser()!.uid {
             self.eventDetailView.editButton.isHidden = true
         } else {
             self.eventDetailView.rsvpButton.setTitle("Going", for: .normal)
             self.eventDetailView.editButton.isHidden = false
+        }
+    }
+    
+    @objc func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        if gestureReconizer.state != UIGestureRecognizerState.ended {
+            return
+        }
+        
+        let point = gestureReconizer.location(in: eventDetailView.collectionView)
+        let indexPath = self.eventDetailView.collectionView.indexPathForItem(at: point)
+        
+        if let index = indexPath {
+            var cell = self.eventDetailView.collectionView.cellForItem(at: index)
+            // do stuff with your cell, for example print the indexPath
+            let contact = filteredContacts[index.row]
+            //print(index.row)
+            print("\(contact.givenName) - index \(index.row)")
+        } else {
+            print("Could not find index path")
         }
     }
     
