@@ -86,11 +86,12 @@ class EventDetailViewController: UIViewController, UIGestureRecognizerDelegate {
             var cell = self.eventDetailView.collectionView.cellForItem(at: index)
             // Here is where you do stuff with your cell, for example print the indexPath
             let contact = filteredContacts[index.row]
+            // this will crash on simulator because not phone app available
             let validNumber = contact.phoneNumber?.digits
             print("Name: \(contact.givenName) - Phone: \(validNumber ?? "0000000000") - index: \(index.row)")
-//            if let url = URL(string: "tel://\(validNumber ?? "0000000000")") {
-//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//            }
+            if let url = URL(string: "tel://\(validNumber ?? "0000000000")") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         } else {
             print("Could not find index path")
         }
