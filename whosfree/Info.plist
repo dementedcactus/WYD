@@ -20,7 +20,7 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>RC.WYD</string>
+			<string>RC.WYD.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wyd</string>
