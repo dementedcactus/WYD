@@ -84,10 +84,13 @@ class EventDetailViewController: UIViewController, UIGestureRecognizerDelegate {
         
         if let index = indexPath {
             var cell = self.eventDetailView.collectionView.cellForItem(at: index)
-            // do stuff with your cell, for example print the indexPath
+            // Here is where you do stuff with your cell, for example print the indexPath
             let contact = filteredContacts[index.row]
-            //print(index.row)
-            print("\(contact.givenName) - index \(index.row)")
+            let validNumber = contact.phoneNumber?.digits
+            print("Name: \(contact.givenName) - Phone: \(validNumber ?? "0000000000") - index: \(index.row)")
+//            if let url = URL(string: "tel://\(validNumber ?? "0000000000")") {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            }
         } else {
             print("Could not find index path")
         }
@@ -402,5 +405,11 @@ extension EventDetailViewController: EditDelegate {
         self.event = event
         self.eventDetailView.bannerPhotoImageView.image = eventImage
         self.eventDetailView.datePicker.date = date
+    }
+}
+extension String {
+    var digits: String {
+        return components(separatedBy: CharacterSet.decimalDigits.inverted)
+            .joined()
     }
 }
