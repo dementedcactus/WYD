@@ -52,7 +52,6 @@ class SignInContainerView: UIView {
         textField.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 15)
         textField.placeholder = "Enter e-mail address"
         textField.textAlignment = .center
-        textField.text = "luiscalle@ac.c4q.nyc"
         textField.layer.cornerRadius = 5
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.black.cgColor
@@ -69,7 +68,6 @@ class SignInContainerView: UIView {
         textField.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 15)
         textField.placeholder = "Enter password"
         textField.textAlignment = .center
-        textField.text = "123456"
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.black.cgColor
         textField.isSecureTextEntry = true
@@ -102,6 +100,7 @@ class SignInContainerView: UIView {
     
     lazy var facebookLoginButton: FBSDKLoginButton = {
         let loginButton = FBSDKLoginButton()
+        loginButton.isHidden = true
         return loginButton
     }()
     
