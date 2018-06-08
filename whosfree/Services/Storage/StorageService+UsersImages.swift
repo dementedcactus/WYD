@@ -46,8 +46,14 @@ extension StorageService {
             // Upload completed successfully
             
             // set user's imageURL
-            let imageURL = String(describing: snapshot.metadata!.downloadURL()!)
-            DatabaseService.manager.getUsers().child("\(userID)/profileImageUrl").setValue(imageURL)
+            snapshot.reference.downloadURL(completion: { (url, error) in
+                if let error = error {
+                    print("error uploading url: \(error.localizedDescription)")
+                } else if let url = url {
+                    DatabaseService.manager.getUsers().child("\(userID)/profileImageURL").setValue(url.absoluteString)
+                    print("\(url.absoluteString)")
+                }
+            })
             self.firebaseAuthService.signOut()
         }
         

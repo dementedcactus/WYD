@@ -42,11 +42,11 @@ class FirebaseAuthService: NSObject {
     }
     
     public func createUser(email: String, password: String, firstName: String, lastName: String, username: String, userImage: UIImage) {
-        Auth.auth().createUser(withEmail: email, password: password){(user, error) in
+        Auth.auth().createUser(withEmail: email, password: password){(authDataResult, error) in
             if let error = error {
                 self.delegate?.didFailCreatingUser?(self, error: error)
-            } else if let user = user {
-                let changeRequest = user.createProfileChangeRequest()
+            } else if let authDataResult = authDataResult {
+                let changeRequest = authDataResult.user.createProfileChangeRequest()
                 changeRequest.displayName = username
                 changeRequest.commitChanges(completion: {(error) in
                     if let error = error {
@@ -57,7 +57,7 @@ class FirebaseAuthService: NSObject {
                         let theUserId = FirebaseAuthService.getCurrentUser()!.uid
                         let newUser = UserProfile(email: email, userID: theUserId, displayName: username, firstName: firstName, lastName: lastName, profileImageUrl: "")
                         DatabaseService.manager.addUserProfile(newUser, userImage)
-                        self.delegate?.didCreateUser?(self, user: user)
+                        self.delegate?.didCreateUser?(self, user: authDataResult.user)
                     }
                 })
             }
@@ -90,24 +90,24 @@ class FirebaseAuthService: NSObject {
     }
     
     public func signIn(email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) {(user, error) in
+        Auth.auth().signIn(withEmail: email, password: password) {(authDataResult, error) in
             if let error = error {
                 self.delegate?.didFailSignIn?(self, error: error)
-            } else if let user = user {
-                self.delegate?.didSignIn?(self, user: user)
+            } else if let authDataResult = authDataResult {
+                self.delegate?.didSignIn?(self, user: authDataResult.user)
             }
         }
     }
     
     public func signInWithFacebook(with credential: AuthCredential) {
-        Auth.auth().signIn(with: credential) { (user, error) in
+        Auth.auth().signInAndRetrieveData(with: credential) { (authDataResult, error) in
             if let error = error {
                 self.delegate?.didFailSignInFacebook?(self, error: error)
                 print("error: \(error.localizedDescription)")
                 return
             }
-            self.delegate?.didSignInFacebook?(self, user: user!)
-            print("User is signed in: \(user!)")
+            self.delegate?.didSignInFacebook?(self, user: authDataResult!.user)
+            print("User is signed in: \(authDataResult!.user)")
         }
     }
     
