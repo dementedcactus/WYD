@@ -49,8 +49,15 @@ extension StorageService {
             // Upload completed successfully
             
             // set event's imageURL
-            let imageURL = String(describing: snapshot.metadata!.downloadURL()!)
-            DatabaseService.manager.getEvents().child("\(eventID)/eventBannerImgUrl").setValue(imageURL)
+            
+            snapshot.reference.downloadURL(completion: { (url, error) in
+                if let error = error {
+                    print("error uploading url: \(error.localizedDescription)")
+                } else if let url = url {
+                    DatabaseService.manager.getEvents().child("\(eventID)/eventBannerImgUrl").setValue(url.absoluteString)
+                    print("\(url.absoluteString)")
+                }
+            })
         }
         
         uploadTask.observe(.failure) { snapshot in
